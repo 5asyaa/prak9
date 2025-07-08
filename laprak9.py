@@ -110,4 +110,22 @@ def menu_login():  # Fungsi menu login
         else:  # Jika salah input
             print("Pilihan tidak valid.\n")  # Pesan error
 
+def export_ke_csv():
+    import csv
+
+    if not catatan_harian:
+        print("Tidak ada catatan untuk diekspor.\n")
+        return
+
+    nama_file = input("Nama file CSV (misal: catatan.csv): ")
+    try:
+        with open(nama_file, mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=['tanggal', 'kategori', 'isi'])
+            writer.writeheader()
+            writer.writerows(catatan_harian)
+        print(f"Catatan berhasil diekspor ke {nama_file}\n")
+    except Exception as e:
+        print(f"Terjadi kesalahan: {e}")
+
+
 menu_login()  # Panggil menu login pertama kali
