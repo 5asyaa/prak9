@@ -1,8 +1,8 @@
+# Sistem Informasi Catatan Harian
+
 catatan_harian = []  # List kosong untuk menyimpan catatan
 
 users = {  # Data user untuk login
-    'admin': 'admin123',  # Username: admin, Password: admin123
-    'user': 'user123'     # Username: user, Password: user123
 }
 
 def login():  # Fungsi login
@@ -10,10 +10,10 @@ def login():  # Fungsi login
     username = input("Username: ")  # Input username
     password = input("Password: ")  # Input password
     if username in users and users[username] == password:  # Verifikasi login
-        print("Login berhasil!\n")  # Jika benar, tampilkan pesan sukses
+        print("✅ Login berhasil!\n")  # Jika benar, tampilkan pesan sukses
         return True  # Kembalikan True jika berhasil
     else:  # Jika username atau password salah
-        print("Username atau password salah.\n")  # Pesan gagal login
+        print("❌ Username atau password salah.\n")  # Pesan gagal login
         return False  # Kembalikan False
 
 def tambah_catatan():  # Fungsi tambah catatan
@@ -87,6 +87,8 @@ def menu_utama():  # Fungsi menu utama
             cari_catatan()  # Panggil fungsi cari
         elif pilih == '4':  # Jika pilih 4
             hapus_catatan()  # Panggil fungsi hapus
+        elif pilih == '6':
+            tampilkan_grafik()
         elif pilih == '5':  # Jika pilih 5
             print("Logout...\n")  # Tampilkan pesan keluar
             break  # Keluar loop
@@ -109,5 +111,24 @@ def menu_login():  # Fungsi menu login
             break  # Keluar loop
         else:  # Jika salah input
             print("Pilihan tidak valid.\n")  # Pesan error
+
+def tampilkan_grafik():
+    import matplotlib.pyplot as plt
+
+    if not catatan_harian:
+        print("Belum ada catatan untuk ditampilkan dalam grafik.\n")
+        return
+
+    kategori_count = {}
+    for c in catatan_harian:
+        kategori = c['kategori']
+        kategori_count[kategori] = kategori_count.get(kategori, 0) + 1
+
+    plt.bar(kategori_count.keys(), kategori_count.values(), color='skyblue')
+    plt.xlabel('Kategori')
+    plt.ylabel('Jumlah Catatan')
+    plt.title('Grafik Catatan per Kategori')
+    plt.tight_layout()
+    plt.show()
 
 menu_login()  # Panggil menu login pertama kali
